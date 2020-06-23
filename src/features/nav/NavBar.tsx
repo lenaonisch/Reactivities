@@ -1,6 +1,5 @@
-import React, { useState, useEffect, FC } from "react";
+import React, { FC } from "react";
 import { Menu, Container, Button } from "semantic-ui-react";
-import { IActivity } from "../../app/models/activity";
 
 interface IProps {
   openCreateForm : ()=> void;
