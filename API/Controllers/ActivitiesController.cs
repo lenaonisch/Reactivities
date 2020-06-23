@@ -36,13 +36,13 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Unit>> Add([FromForm]CreateActivity.Command command)
+        public async Task<ActionResult<Unit>> Add(CreateActivity.Command command)
         {
             return Ok(await _mediator.Send(command));
         }
 
         [HttpPut]
-        public async Task<ActionResult<Unit>> Edit([FromForm]EditActivity.Command command)
+        public async Task<ActionResult<Unit>> Edit(EditActivity.Command command)
         {
             return Ok(await _mediator.Send(command));
         }
