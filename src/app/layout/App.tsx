@@ -50,12 +50,7 @@ const App = () => {
   }
 
   useEffect(() => {
-   // agents.Activities.list. 
-
-
-
-    
-    agents.Activities.list()
+      agents.Activities.list()
       .then((response) => {
         let newActivities: IActivity[] = [];
         response.forEach(activity => {
