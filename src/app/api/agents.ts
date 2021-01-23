@@ -23,6 +23,11 @@ const Activities = {
     delete: (id: string) => requests.delete('/activities/'+ id)
 }
 
+const Categories = {
+    list: () : Promise<string[]> => requests.get('/categories')
+}
+
 export default {
-    Activities
+    Activities,
+    Categories
 }

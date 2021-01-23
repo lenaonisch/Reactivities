@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, FC, useEffect } from "react";
 import {
   Form,
   Button,
@@ -8,9 +8,10 @@ import {
 } from "semantic-ui-react";
 import { IActivity } from "../../app/models/activity";
 import { v4 as uuid} from 'uuid';
+import agents from "../../app/api/agents";
 
 interface IProps {
-  categoryOptions: DropdownItemProps[];
+ // categoryOptions: DropdownItemProps[];
   activity: IActivity | null;
   setEditMode: (editMode: boolean) => void;
   createActivity: (activity:IActivity) => void;
@@ -18,7 +19,6 @@ interface IProps {
 }
 
 export const ActivityForm: FC<IProps> = ({
-  categoryOptions,
   activity: initialActivity,
   setEditMode,
   createActivity,
@@ -59,8 +59,22 @@ export const ActivityForm: FC<IProps> = ({
       editActivity(activity);
     }
   };
+
+  const [categoryOptions, setCategories] = useState<DropdownItemProps[]>();
+
+  useEffect(() => {
+    let dropDownCategories: DropdownItemProps[] = [];
+    agents.Categories.list().then((response) => {
+      
+        response.forEach((category) => {
+          dropDownCategories.push({ key: category, text: category, value: category });
+        })
+        setCategories(dropDownCategories);
+    });
+  }, []);
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} style={{marginTop:"5em"}}>
       <Form.Field
         onChange={handleInputChange}
         name="title"
@@ -69,16 +83,12 @@ export const ActivityForm: FC<IProps> = ({
         placeholder="Title"
         value={activity.title}
       ></Form.Field>
-      <Form.Field 
+      <Form.Select 
         onChange={handleInputChange}
-        
+        options={categoryOptions}
         label="Category"
-        control="select"
         name="category">
-        {categoryOptions.map((option) => (
-          <option value={option.key}>{option.value}</option> 
-        ))}
-      </Form.Field>
+      </Form.Select>
       <Form.Field
         onChange={handleInputChange}
         name="description"

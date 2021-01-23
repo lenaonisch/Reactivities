@@ -1,15 +1,12 @@
 import React, { FC } from "react";
 import { Menu, Container, Button } from "semantic-ui-react";
+import { NavLink } from "react-router-dom";
 
 interface IProps {
-  openCreateForm : ()=> void;
-  
+ 
 }
 
 export const NavBar: FC<IProps> = (props) => {
-  //   const [activeItem, setMenuItem] = useState<string>("home");
-
-  //   handleItemClick = (e, { name }) => setMenuItem({ activeItem: name });
 
   return (
     <Menu fixed="top" inverted>
@@ -17,27 +14,26 @@ export const NavBar: FC<IProps> = (props) => {
         <Menu.Item
           header
           name="home"
-          // active={activeItem === "home"}
-          // onClick={handleItemClick}
+          as={NavLink}
+          exact
+          to="/"
         >
           <img src="../../../logo.png" style={{ marginRight: 10 }} />
           Home
         </Menu.Item>
         <Menu.Item
-          name="messages"
-          // active={activeItem === "messages"}
-          // onClick={handleItemClick}
+          name="Activities"
+          as={NavLink}
+          to="/activities"
         />
         <Menu.Item
-          name="friends"
-          // active={activeItem === "friends"}
-          // onClick={handleItemClick}
+          name="createActivity"
         >
           <Button
             positive
             content="Create activity"
-            onClick={props.openCreateForm
-            }
+            as={NavLink}
+            to="createActivity"
           />
         </Menu.Item>
       </Container>

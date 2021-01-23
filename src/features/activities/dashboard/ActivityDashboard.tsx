@@ -19,21 +19,7 @@ interface IProps {
 }
 
 export const ActivityDashboard: FC<IProps> = (props) => {
-  // console.log(props.activities);
-  // debugger;
-  const [categoryOptions, setCategories] = useState<DropdownItemProps[]>();
-
-  useEffect(() => {
-    axios.get<string[]>("http://localhost:5000/Categories").then((response) => {
-      setCategories(
-        response.data.map((category) => {
-          return { key: category, text: category, value: category };
-        })
-      );
-    });
-  }, []);
-
-
+  
 
   return (
     <Grid style={{ marginTop: "1em" }}>
@@ -56,7 +42,6 @@ export const ActivityDashboard: FC<IProps> = (props) => {
           {props.editMode && (
             <ActivityForm
               key={props.selectedActivity.id && props.selectedActivity.id || 0}
-              categoryOptions={categoryOptions!}
               activity={props.selectedActivity}
               setEditMode={props.setEditMode}
               createActivity={props.createActivity}
@@ -69,7 +54,6 @@ export const ActivityDashboard: FC<IProps> = (props) => {
       {props.editMode &&(
         <Grid.Column width="6">
             <ActivityForm
-              categoryOptions={categoryOptions!}
               activity={props.selectedActivity}
               setEditMode={props.setEditMode}
               createActivity={props.createActivity}
