@@ -52,11 +52,5 @@ namespace API.Controllers
         {
             return Ok(await _mediator.Send(new DeleteActivity.Command(id)));
         }
-
-        [HttpGet("/Categories")]
-        public async Task<ActionResult<IList<Activity>>> GetCategories()
-        {
-            return Ok(await _mediator.Send(new GetCategories.Query()));
-        }
     }
 }
