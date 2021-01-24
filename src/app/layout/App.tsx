@@ -8,6 +8,7 @@ import { Route } from "react-router-dom";
 import HomePage from "../../features/home/HomePage";
 import { ActivityForm } from "../../features/forms/ActivityForm";
 import { LoadingComponent } from "./LoadingComponent";
+import { ActivityDetails } from "../../features/activities/details/ActivityDetails";
 
 const App = () => {
   const [activities, setActivities] = useState<IActivity[]>([]);
@@ -19,16 +20,15 @@ const App = () => {
 
   const handleSelectActivity = (id: String) => {
     setEditMode(false);
-    setSelectedActivity(
-      activities.filter((act) => {
-        return act.id === id;
-      })[0]
-    );
-  };
-
-  const handelCreateEditForm = () => {
-    setEditMode(true);
-    setSelectedActivity(null);
+    let activity = activities.filter((act) => {
+      return act.id === id;
+    })[0];
+    
+    if (activity == null){
+      agents.Activities.get(id.valueOf()).then((response)=> {setSelectedActivity(response)} )
+    } else { 
+      setSelectedActivity(activity);
+    }
   };
 
   const handleCreateActivity = (activity: IActivity) => {
@@ -74,11 +74,11 @@ const App = () => {
   return (
     <Fragment>
       <Container>
-        <NavBar openCreateForm={handelCreateEditForm} />
+        <NavBar/>
   
         <Route exact path="/" component={HomePage} />
 
-        <Route path="/activities">
+        <Route exact path="/activities">
           <ActivityDashboard
             activities={activities}
             selectActivity={handleSelectActivity}
@@ -91,15 +91,26 @@ const App = () => {
             deleteActivity={handleDeleteActivity}
           />
         </Route>
-        <Route path="/createActivity"> 
-          <ActivityForm
-          activity={selectedActivity}
-          setEditMode={setEditMode}
-          createActivity={handleCreateActivity}
-          editActivity={handleEditActivity}
-          ></ActivityForm>
+        <Route 
+          path={["/editActivity/:id", "/createActivity"]}
+          render={(props)=>
+                  <ActivityForm
+                  routeProps={props}
+                  activity={selectedActivity}
+                  createActivity={handleCreateActivity}
+                  editActivity={handleEditActivity}
+                  ></ActivityForm>}
+        > 
         </Route>
-        
+        <Route 
+          exact path="/activities/:id"
+          render={(props)=>  
+            <ActivityDetails
+              routeProps={props}
+              activity={selectedActivity}
+              setSelectedActivity={setSelectedActivity}
+            ></ActivityDetails>}>
+        </Route>
       </Container>
     </Fragment>
   );

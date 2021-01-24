@@ -9,18 +9,18 @@ import {
 import { IActivity } from "../../app/models/activity";
 import { v4 as uuid} from 'uuid';
 import agents from "../../app/api/agents";
+import { RouteComponentProps } from "react-router-dom";
 
 interface IProps {
- // categoryOptions: DropdownItemProps[];
+  routeProps: RouteComponentProps,
   activity: IActivity | null;
-  setEditMode: (editMode: boolean) => void;
   createActivity: (activity:IActivity) => void;
   editActivity: (activity: IActivity) => void;
 }
 
 export const ActivityForm: FC<IProps> = ({
+  routeProps,
   activity: initialActivity,
-  setEditMode,
   createActivity,
   editActivity
 }) => {
@@ -121,7 +121,9 @@ export const ActivityForm: FC<IProps> = ({
         placeholder="Vanue"
         value={activity.vanue}
       ></Form.Field>
-      <Button onClick={() => setEditMode(false)} type="button">
+      <Button onClick={() => {
+           routeProps.history.push(`/activities/${activity.id}`)}} 
+           type="button">
         Cancel
       </Button>
       <Button type="submit">Submit</Button>

@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Item, Button, Label, Segment } from "semantic-ui-react";
 import { IActivity } from "../../../app/models/activity";
+import { Link } from "react-router-dom";
 
 interface IProps {
   activities: IActivity[];
@@ -38,12 +39,11 @@ export const ActivityList: FC<IProps> = (props) => {
                   color="red"
                 />
                 <Button
-                  onClick={() => {
-                    props.selectActivity(activity.id);
-                  }}
                   content="View"
                   floated="right"
                   color="blue"
+                  as={Link}
+                  to={`/activities/${activity.id}`}
                 />
 
                 <Label basic content={activity.category} />
